@@ -21,8 +21,8 @@
 
     // 入力値を取得
     request.setCharacterEncoding("UTF-8");
-    String numStr = request.getParameter("num");
-    String btn = request.getParameter("btn");
+    String numStr = request.getParameter("num"); // 振る回数
+    String btn = request.getParameter("btn"); // 開始orリセット
 
     // 振る回数の入力値を入れるための変数
     int num = 0;
@@ -66,27 +66,32 @@
         */
 
         // 1～6の数をランダムで生成
-        int val = (int) (Math.random() * 6 + 1);
+        while (totalNum < num) {
+        	 int val = (int) (Math.random() * 6 + 1);
 
-        // 合計に加算
-        sum += val;
+             // 合計に加算
+             sum += val;
 
-        // 出た目用の文字列を生成
-        if (result.isEmpty()) {
-            result += val;
-        } else {
-            result += ", " + val;
+             // 出た目用の文字列を生成
+             if (result.isEmpty()) {
+                 result += val;
+             } else {
+                 result += ", " + val;
+             }
+
+             // セッションから実施回数を取得
+             totalNum = (int) session.getAttribute("totalNum");
+
+             // 実施回数を1加算
+             totalNum += 1;
         }
 
-        // セッションから実施回数を取得
-        totalNum = (int) session.getAttribute("totalNum");
-
-        // 実施回数を1加算
-        totalNum += 1;
-
+        // セッションから勝利回数を取得
+        winNum = (int) session.getAttribute("winNum");
         if (sum % 2 == 0) {
             // 合計が偶数の場合、勝敗用の文字列をセット
             message = "あなたの勝ちです";
+            winNum += 1;
         } else {
             // 合計が奇数の場合、勝敗用の文字列をセット
             message = "あなたの負けです";
@@ -94,7 +99,7 @@
 
         // セッションに実施回数を保存
         session.setAttribute("totalNum", totalNum);
-
+        session.setAttribute("winNum", winNum);
     }
 %>
 

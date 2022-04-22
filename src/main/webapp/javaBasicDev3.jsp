@@ -5,10 +5,66 @@
     // ※必要な処理を実装してください
 
     // 入力値取得
-
+    request.setCharacterEncoding("UTF-8");
+	String num1 = request.getParameter("num1");
+	int num1_int = 0;
+	try {
+		if (!num1.isEmpty()) {
+			num1_int = Integer.parseInt(num1);
+		} 
+	} catch(NullPointerException e) {
+	
+	}
+	String num2 = request.getParameter("num2");
+	int num2_int = 0;
+	try {
+		if (!num2.isEmpty()) {
+			num2_int = Integer.parseInt(num2);
+		} 
+	} catch(NullPointerException e) {
+		
+	}
+	String operator = request.getParameter("operator");
+	int ans = 0;
+	if(operator != null) {
+		switch(operator) {
+		case "add":
+			ans = num1_int + num2_int;
+			operator = " + ";
+			break;
+		case "sub":
+			ans = num1_int - num2_int;
+			operator = " - ";
+			break;
+		case "mul": 
+			ans = num1_int * num2_int;
+			operator = " * ";
+			break;
+		case "div":
+			ans = num1_int / num2_int;
+			operator = " / ";
+			break;
+		}
+	}
     // 表示するメッセージ用の変数
 
     // メッセージ作成
+    String msg;
+    msg = "数値を入力してください";
+    try {
+	    if (num1.isEmpty() && num2.isEmpty()) {
+	    	msg = "数値が両方とも未入力です";
+	    } else if (num1.isEmpty() || num2.isEmpty()) {
+	    	msg = "数値を入力してください";
+	    } else if(num1 != null && num2 != null) {
+	    	msg = num1 +  operator + num2 + " = " + (ans);
+	    	if(operator == " / ") {
+	    		msg = msg + " 余り" + (num1_int % num2_int);
+	    	}
+	    }
+    } catch (NullPointerException e) {
+    	
+    }
 
 %>
 
@@ -30,7 +86,7 @@
 
   <p>
     <!-- メッセージの表示  -->
-
+	<%out.println(msg); %>
   </p>
 
   <form action="javaBasicDev3.jsp" method="post">

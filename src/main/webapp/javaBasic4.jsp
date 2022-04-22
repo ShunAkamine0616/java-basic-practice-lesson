@@ -66,9 +66,11 @@
         */
 
         // 1～6の数をランダムで生成
-        while (totalNum < num) {
+        out.println("num = " + num);
+        int number = 0;
+        for (int i = 0; i < num; i++) {
         	 int val = (int) (Math.random() * 6 + 1);
-
+        	 out.println("さいころを振った回数 = " + (i + 1));
              // 合計に加算
              sum += val;
 

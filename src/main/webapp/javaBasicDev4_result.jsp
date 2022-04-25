@@ -9,13 +9,14 @@
     */
 
     // 入力値を取得
-    String[] product = null; //現在は仮で値をセットしている。実際は入力値を受け取る
-
+    request.setCharacterEncoding("UTF-8");
+    String[] product = request.getParameterValues("product"); //現在は仮で値をセットしている。実際は入力値を受け取る
     // セッションから現在の所持金を取得
-    int money = 150000; //現在は仮で値をセットしている。実際はセッションから取得する
+    int money = (int) session.getAttribute("money"); 
+    //現在は仮で値をセットしている。実際はセッションから取得する
 
     // 表示用変数定義
-    String msg = ""; // 購入メッセージ
+    String msg = "商品が選ばれていません"; // 購入メッセージ
     String result = ""; // 購入した商品
     int sumAmount = 0; // 購入した金額の合計
     int newMoney = money; // 購入後の所持金
@@ -34,15 +35,46 @@
         // (商品名の区切り(後ろ)には<br>をつける)
         // (例:「テレビ」と「冷蔵庫」を選択した場合、sumAmountの値は「50000」
         //      resultの値は「テレビ<br>冷蔵庫<br>」になる
-
+		for(int i = 0; i < product.length; i++) {
+			switch(product[i]) {
+			
+			case "tv":
+				sumAmount += 20000;
+				result += "テレビ<br>";
+				break;
+			case "refrigerator":
+				sumAmount += 30000;
+				result += "冷蔵庫<br>";
+				break;
+			case "microWave":
+				sumAmount += 10000;
+				result += "電子レンジ<br>";
+				break;
+			case "washingMachine":
+				sumAmount += 50000;
+				result += "洗濯機<br>";
+				break;
+			default:
+			}
+		}
         // 現在の所持金と購入金額の合計を比較して、
         // 所持金が足りているか判断
 
         // 足りている場合は、購入後の所持金を計算し、
         // 変数:newMoneyにセット
-
+        
+        
+       	if(money >= sumAmount) {
+   			newMoney = money - sumAmount;
+   			msg = "以下の商品を購入しました";
+   		} else {
+   			msg = "所持金が足りませんでした";
+   		}
+        
+       
         // 購入後の所持金をセッションに保存
-
+		 session.setAttribute("money", newMoney);
+        
     }
 %>
 

@@ -16,6 +16,13 @@
     // Utilityクラス内のメソッドを呼んで結果を取得
     // 三角形、長方形のどちらのボタンを押したかを判断し、
     // 押したボタンに対応するメソッドを呼ぶ
+    
+    if (request.getParameter("btn").equals("triangle")) {
+    	result = Utility.getTriangleArea(widthStr, heightStr);
+    } else if (request.getParameter("btn").equals("rectangle")) {
+    	result = Utility.getRectangleArea(widthStr, heightStr);
+    }
+    
 
 %>
 
